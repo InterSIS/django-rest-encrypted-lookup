@@ -61,6 +61,10 @@ And in settings.py:
 
 ```
   LOOKUP_FIELD = 'id'  # String value name of your drf lookup field, generally 'id' or 'pk'
+  
+  # Protect ID_ENCRYPT_SECRET as closely as your SECRET_KEY
+  # DO NOT set ID_ENCRYPT_SECRET to be equal to your SECRET_KEY
+  ID_ENCRYPT_SECRET = b'1111111111111111'
 ```
 
 How it Works
@@ -141,6 +145,14 @@ Additional Requirements
 
 * PyCrypto 2.6.1
 
+Todo
+====
+
+* Allow user to redifine default encryption method.
+* Tox to test compatability against multiple requirement versions.
+* Wheels.
+* Settings dictionary
+* EncryptedLookupHyperlinkedModelSerializer
 
 Getting Involved
 ================
