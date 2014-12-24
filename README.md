@@ -3,8 +3,7 @@ django-rest-encrypted-lookup
 
 django-rest-encrypted-lookup provides replacement ViewSets, Serializers, and Fields that replace your IntegerField pk or id lookups with encrypted string lookups.
 
-For example, the json representation of a poll goes from:
-
+The json representation of a poll:
 ```
     {
         "id": 5,
@@ -13,10 +12,9 @@ For example, the json representation of a poll goes from:
                       10,
                       12,
         ]
-    
     }
 ```
-to:
+becomes:
 ```
     {
         "id": "4xoh7gja2mtvz3i47ywy5h6ouu",
@@ -25,7 +23,6 @@ to:
                       "hp7c75ggggiwv6cs5zc4mpzeoe",
                       "rqq5a2evfokyo7tz74loiu3bcq",
         ]
-    
     }
 ```
 
