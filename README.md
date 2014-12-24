@@ -155,6 +155,7 @@ Todo
 * Wheels.
 * Settings dictionary.
 * EncryptedLookupHyperlinkedModelSerializer.
+* PyPI packaging.
 
 Getting Involved
 ================
