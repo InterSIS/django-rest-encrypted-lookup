@@ -46,20 +46,21 @@ lookups *are* appropriate to use as a non-security-critical method of obfuscatin
 Installation
 ===============
 
-Install the module in your Python distribution or virtualenv::
+Install the module in your Python distribution or virtualenv:
 
     $ pip install git+https://github.com/SigmaEducation/django-rest-encrypted-lookup.git
 
-Add the application to your `INSTALLED_APPS`::
+Add the application to your `INSTALLED_APPS`:
 
 ```
-  INSTALLED_APPS = (...
+  INSTALLED_APPS = (
+  ...
   "rest_framework_encrypted_lookup",
   ...
   )
 ```
 
-And in settings.py::
+And in settings.py:
 
 ```
   LOOKUP_FIELD = 'id'  # String value name of your drf lookup field, generally 'id' or 'pk'
@@ -124,7 +125,9 @@ Example:
 ```
 
 Of the four classes included in this package, the example above makes use of `EncryptedLookupModelSerializer`, and 
-`EncryptedLookupGenericViewSet`. The fields `EncryptedLookupField`, `EncryptedLookupRelatedField` are used implicitly
+`EncryptedLookupGenericViewSet`.
+
+The fields `EncryptedLookupField`, `EncryptedLookupRelatedField` are used implicitly
 by the EncryptedLookupModelSerializer. These fields may also be used explicitly, if needed.
 
 Compatibility
