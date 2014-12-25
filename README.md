@@ -45,7 +45,7 @@ Installation
 
 Install the module in your Python distribution or virtualenv:
 
-    $ pip install git+https://github.com/SigmaEducation/django-rest-encrypted-lookup.git
+    $ pip install django-rest-encrypted-lookup
 
 Add the application to your `INSTALLED_APPS`:
 
@@ -151,6 +151,7 @@ Additional Requirements
 Todo
 ====
 
+* Py2 and Django 1.6 compatibility
 * Tox to test compatability against multiple requirement versions.
 * Wheels.
 * Settings dictionary.
