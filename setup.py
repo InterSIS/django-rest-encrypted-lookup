@@ -7,15 +7,9 @@ with open(os.path.join(os.path.dirname(__file__), 'README.md')) as readme:
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
-install_requires = [
-    'django>=1.7',
-    'djangorestframework==3.0.1',
-    'pycrypto',
-    ]
-
 setup(
     name='django-rest-encrypted-lookup',
-    version='0.8',
+    version='0.8.1',
     packages=['rest_framework_encrypted_lookup'],
     include_package_data=True,
     license='GNU General Public License v3 (GPLv3)',
@@ -24,6 +18,11 @@ setup(
     url='http://www.sigmaeducation.com/',
     author='Sigma Education',
     author_email='dev@sigmaeducation.com',
+    install_requires=[
+        'django>=1.7',
+        'djangorestframework>=3.0.1',
+        'pycrypto',
+    ],
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',
