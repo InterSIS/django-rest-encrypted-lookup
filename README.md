@@ -1,3 +1,5 @@
+[![Downloads](https://pypip.in/download/django-rest-encrypted-lookup/badge.svg)](https://pypi.python.org/pypi/django-rest-encrypted-lookup/)
+
 django-rest-encrypted-lookup
 =============
 
