@@ -4,23 +4,26 @@ import sys
 from django.test import TestCase
 from django.db import models
 
-from .utils import id_cipher
-from .fields import EncryptedLookupRelatedField, EncryptedLookupField
-from .serializers import EncryptedLookupModelSerializer
+from rest_framework_encrypted_lookup.utils import id_cipher
+from rest_framework_encrypted_lookup.fields import EncryptedLookupRelatedField, EncryptedLookupField
+from rest_framework_encrypted_lookup.serializers import EncryptedLookupModelSerializer
 
 # In Django, defining a model induces side effects such as database table creation.
 # To avoid these side effects during non-test runs, before we define models we first
 # must determine whether this is a test...
-if sys.argv[1:2] == ['test']:
+if 'runtests.py' in sys.argv[0] or (len(sys.argv) >= 3 and sys.argv[1:2] == ['test']):
     # and if so, we declare dummy models/querysets that we will use for testing.
+    class DummyModel0(models.Model):
+        pass
+
     class DummyModel(models.Model):
+
+        related = models.ForeignKey(DummyModel0)
 
         def __init__(self, *args, **kwargs):
             super(DummyModel, self).__init__(*args, **kwargs)
 
             self.pk = kwargs['pk']
-
-    setattr(DummyModel, 'related', models.ForeignKey(DummyModel))
 
     # Our "database" of dummy objects:
     dummy_objects = [DummyModel(pk=i) for i in range(0, 10)]

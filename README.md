@@ -1,5 +1,3 @@
-[![Downloads](https://pypip.in/download/django-rest-encrypted-lookup/badge.svg)](https://pypi.python.org/pypi/django-rest-encrypted-lookup/)
-
 django-rest-encrypted-lookup
 =============
 
@@ -67,6 +65,7 @@ And in settings.py:
   # Choose your own 
   # Protect ID_ENCRYPT_SECRET as closely as your SECRET_KEY
   # DO NOT set ID_ENCRYPT_SECRET to be equal to your SECRET_KEY
+  # If ID_ENCRYPT_SECRET changes, then your lookup strings will change
   ID_ENCRYPT_SECRET = b'16Secretchars+++'
 ```
 
@@ -140,10 +139,8 @@ Compatibility
 =============
 
 * Django Rest Framework 3.0.1
-* Django 1.7
-* Python 3.4
-
-Todo includes the use of tox to test compatibility against multiple requirement versions.
+* Django 1.7.1, 
+* Python 3.4, 2.7
 
 Additional Requirements
 =======================
@@ -153,12 +150,11 @@ Additional Requirements
 Todo
 ====
 
-* Py2 and Django 1.6 compatibility
-* Tox to test compatability against multiple requirement versions.
+* Model name salts.
+* Coverage.
 * Wheels.
 * Settings dictionary.
 * EncryptedLookupHyperlinkedModelSerializer.
-* PyPI packaging.
 
 Getting Involved
 ================
