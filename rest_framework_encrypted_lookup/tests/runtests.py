@@ -14,8 +14,8 @@ sys.path.append(os.path.abspath(os.path.join(BASE_DIR, '..')))
 # Unfortunately, apps can not be installed via ``modify_settings``
 # decorator, because it would miss the database setup.
 CUSTOM_INSTALLED_APPS = (
-    'foo',
-    'django.contrib.admin',
+    'rest_framework',
+    # 'django.contrib.admin',
 )
 
 ALWAYS_INSTALLED_APPS = (
@@ -59,7 +59,9 @@ settings.configure(
     PASSWORD_HASHERS=(
         'django.contrib.auth.hashers.MD5PasswordHasher',
     ),
-    FIXTURE_DIRS=glob.glob(BASE_DIR + '/' + '*/fixtures/')
+    FIXTURE_DIRS=glob.glob(BASE_DIR + '/' + '*/fixtures/'),
+    LOOKUP_FIELD = 'id',
+    ID_ENCRYPT_SECRET = b'16Secretchars+++',
 
 )
 
