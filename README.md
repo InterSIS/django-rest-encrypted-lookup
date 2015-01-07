@@ -152,6 +152,7 @@ Todo
 ====
 
 * Model name salts.
+* More flexible secret key format.
 * Coverage.
 * Wheels.
 * Settings dictionary.
