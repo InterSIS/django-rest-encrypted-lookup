@@ -65,7 +65,11 @@ settings.configure(
 
 )
 
-django.setup()
+try:
+    django.setup()
+except AttributeError:
+    pass
+
 args = [sys.argv[0], 'test']
 # Current module (``tests``) and its submodules.
 test_cases = '.'
