@@ -4,7 +4,7 @@ import sys
 from django.test import TestCase
 from django.db import models
 
-from rest_framework_encrypted_lookup.utils import id_cipher
+from rest_framework_encrypted_lookup.utils import id_cipher, IDCipher
 from rest_framework_encrypted_lookup.fields import EncryptedLookupRelatedField, EncryptedLookupField
 from rest_framework_encrypted_lookup.serializers import EncryptedLookupModelSerializer
 
@@ -57,6 +57,11 @@ class IDCipherTests(TestCase):
 
         for i in range(2147453647, 2147483647):
             self.assertEqual(i, id_cipher.decode(id_cipher.encode(i)))
+
+    def test_secret_key_provision(self):
+        new_id_cipher = IDCipher(secret="Hello")
+        for i in range(-10, 10):
+            self.assertEqual(i, new_id_cipher.decode(id_cipher.encode(i)))
 
 
 class FieldTests(TestCase):
