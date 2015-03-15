@@ -15,7 +15,8 @@ class EncryptedLookupModelSerializer(serializers.ModelSerializer):
 
     lookup_field = settings.LOOKUP_FIELD
 
-    _related_class = EncryptedLookupRelatedField
+    serializer_related_field = EncryptedLookupRelatedField  # Django Rest Framework 3.0.0
+    _related_class = EncryptedLookupRelatedField  # Django Rest Framework 3.0.1
 
     def get_fields(self):
 

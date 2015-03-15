@@ -139,14 +139,14 @@ by the EncryptedLookupModelSerializer. These fields may also be used explicitly,
 Compatibility
 =============
 
-* Django Rest Framework 3
-* Django 1.6, 1.7
-* Python 2.7, 3.4
+* Django Rest Framework 3.0.0, 3.0.1
+* Django 1.5, 1.6, 1.7
+* Python 2.7, 3.3, 3.4
 
 Additional Requirements
 =======================
 
-* PyCrypto
+* PyCrypto 2.6.1
 
 Todo
 ====
