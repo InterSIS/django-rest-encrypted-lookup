@@ -64,7 +64,7 @@ settings.configure(
 
     ENCRYPTED_LOOKUP = {
         'lookup_field_name': 'id',
-        'secret_key': b'16Secretchars+++',
+        'secret_key': "blablabla",
     },
 
 

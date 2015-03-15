@@ -59,9 +59,9 @@ class IDCipherTests(TestCase):
             self.assertEqual(i, id_cipher.decode(id_cipher.encode(i)))
 
     def test_secret_key_provision(self):
-        new_id_cipher = IDCipher(secret="Hello")
+        new_id_cipher = IDCipher(secret="blabla&&;;asdfblaasdf")
         for i in range(-10, 10):
-            self.assertEqual(i, new_id_cipher.decode(id_cipher.encode(i)))
+            self.assertEqual(i, new_id_cipher.decode(new_id_cipher.encode(i)))
 
 
 class FieldTests(TestCase):

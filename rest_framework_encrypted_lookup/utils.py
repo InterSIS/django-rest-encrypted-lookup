@@ -1,4 +1,6 @@
 import base64
+import codecs
+import hashlib
 
 from Crypto.Cipher import AES
 
@@ -14,9 +16,10 @@ class IDCipher(object):
     PADDING_STRING = '{'
     PADDING_BYTES = bytes(PADDING_STRING.encode('utf-8'))
 
-    def __init__(self):
-        self.secret = encrypted_lookup_settings['secret_key']
+    def __init__(self, secret=encrypted_lookup_settings['secret_key']):
+        self.secret = codecs.decode(hashlib.md5(bytearray(secret, 'utf-8')).hexdigest(), 'hex_codec')
         self.cipher = AES.new(self.secret)
+
 
     def pad(self, s, padding_char):
         return s + (self.BLOCK_SIZE - len(s) % self.BLOCK_SIZE) * padding_char
