@@ -1,8 +1,7 @@
-from django.conf import settings
-
 from rest_framework import serializers
 
 from .fields import EncryptedLookupRelatedField, EncryptedLookupField
+from .settings import encrypted_lookup_settings
 
 
 class EncryptedLookupModelSerializer(serializers.ModelSerializer):
@@ -13,7 +12,7 @@ class EncryptedLookupModelSerializer(serializers.ModelSerializer):
     with a EncryptedLookupField, provided that these fields would be presented by ModelSerializer.
     """
 
-    lookup_field = settings.LOOKUP_FIELD
+    lookup_field = encrypted_lookup_settings["lookup_field_name"]
 
     serializer_related_field = EncryptedLookupRelatedField  # Django Rest Framework 3.0.0
     _related_class = EncryptedLookupRelatedField  # Django Rest Framework 3.0.1

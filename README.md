@@ -61,13 +61,10 @@ Add the application to your `INSTALLED_APPS`:
 And in settings.py:
 
 ```
-  LOOKUP_FIELD = 'id'  # String value name of your drf lookup field, generally 'id' or 'pk'
-  
-  # Choose your own 
-  # Protect ID_ENCRYPT_SECRET as closely as your SECRET_KEY
-  # DO NOT set ID_ENCRYPT_SECRET to be equal to your SECRET_KEY
-  # If ID_ENCRYPT_SECRET changes, then your lookup strings will change
-  ID_ENCRYPT_SECRET = b'16Secretchars+++'
+  ENCRYPTED_LOOKUP = {
+      'lookup_field_name': 'id',  # String value name of your drf lookup field, generally 'id' or 'pk'
+      'secret_key': b'16Secretchars+++',  # Choose a unique key, 16 character key with which to encrypt your lookup fields
+  },
 ```
 
 How it Works

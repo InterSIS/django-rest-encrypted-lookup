@@ -60,8 +60,14 @@ settings.configure(
         'django.contrib.auth.hashers.MD5PasswordHasher',
     ),
     FIXTURE_DIRS=glob.glob(BASE_DIR + '/' + '*/fixtures/'),
-    LOOKUP_FIELD = 'id',
-    ID_ENCRYPT_SECRET = b'16Secretchars+++',
+
+
+    ENCRYPTED_LOOKUP = {
+        'lookup_field_name': 'id',
+        'secret_key': b'16Secretchars+++',
+    },
+
+
 
 )
 

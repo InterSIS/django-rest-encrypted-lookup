@@ -2,7 +2,7 @@ import base64
 
 from Crypto.Cipher import AES
 
-from django.conf import settings
+from .settings import encrypted_lookup_settings
 
 
 class IDCipher(object):
@@ -15,7 +15,7 @@ class IDCipher(object):
     PADDING_BYTES = bytes(PADDING_STRING.encode('utf-8'))
 
     def __init__(self):
-        self.secret = settings.ID_ENCRYPT_SECRET
+        self.secret = encrypted_lookup_settings['secret_key']
         self.cipher = AES.new(self.secret)
 
     def pad(self, s, padding_char):
