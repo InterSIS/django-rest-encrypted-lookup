@@ -1,4 +1,5 @@
 import json
+from argparse import Namespace
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils.translation import ugettext_lazy as _
@@ -37,3 +38,17 @@ class EncryptedLookupRelatedField(serializers.PrimaryKeyRelatedField):
 
 EncryptedLookupRelatedField.default_error_messages['incorrect_type_encrypted_lookup'] = \
     _('Incorrect type. Expected string value, received {data_type}.')
+
+
+class EncryptedLookupHyperlinkedRelatedField(serializers.HyperlinkedRelatedField):
+
+    def get_object(self, view_name, view_args, view_kwargs):
+        view_kwargs[self.lookup_url_kwarg] = id_cipher.decode(view_kwargs[self.lookup_url_kwarg])
+
+        return super(EncryptedLookupHyperlinkedRelatedField, self).get_object(view_name, view_args, view_kwargs)
+
+    def get_url(self, obj, view_name, request, format):
+        new_obj = Namespace()
+        new_obj.pk = id_cipher.encode(obj.pk)
+
+        return super(EncryptedLookupHyperlinkedRelatedField, self).get_url(new_obj, view_name, request, format)

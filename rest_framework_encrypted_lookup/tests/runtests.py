@@ -35,7 +35,6 @@ ALWAYS_MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-
 settings.configure(
     SECRET_KEY="django_tests_secret_key",
     DEBUG=False,
@@ -43,7 +42,7 @@ settings.configure(
     ALLOWED_HOSTS=[],
     INSTALLED_APPS=ALWAYS_INSTALLED_APPS + CUSTOM_INSTALLED_APPS,
     MIDDLEWARE_CLASSES=ALWAYS_MIDDLEWARE_CLASSES,
-    ROOT_URLCONF='tests.urls',
+    ROOT_URLCONF='rest_framework_encrypted_lookup.tests.urls',
     DATABASES={
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -60,7 +59,6 @@ settings.configure(
         'django.contrib.auth.hashers.MD5PasswordHasher',
     ),
     FIXTURE_DIRS=glob.glob(BASE_DIR + '/' + '*/fixtures/'),
-
 
     ENCRYPTED_LOOKUP = {
         'lookup_field_name': 'id',
