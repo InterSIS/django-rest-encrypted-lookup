@@ -27,6 +27,18 @@ becomes:
     }
 ```
 
+If you prefer hyperlinked related fields:
+```
+    {
+        "id": "4xoh7gja2mtvz3i47ywy5h6ouu",
+        "questions": [
+                      "https://example.com/api/questions/t6y4zo26vutj4xclh5hpy3sc5m/",
+                      "https://example.com/api/questions/hp7c75ggggiwv6cs5zc4mpzeoe/",
+                      "https://example.com/api/questions/rqq5a2evfokyo7tz74loiu3bcq/",
+        ]
+    }
+```
+
 The endpoint:
 
 ```
@@ -38,7 +50,7 @@ becomes:
 ```
 
 Encrypted lookups are *not* appropriate to use as a security measure against users guessing object URIs. Encrypted
-lookups *are* appropriate to use as a non-security-critical method of obfuscating object pks/ids.
+lookups *are* appropriate to use as a method of obfuscating object pks/ids.
 
 
 Installation
@@ -80,13 +92,13 @@ Encryption is provided by the PyCrypto AES library.
 Use
 ===
 
-django-rest-encrypted-lookup provides two field classes:
+django-rest-encrypted-lookup provides three field classes:
 
-    from rest_framework_encrypted_lookup.fields import EncryptedLookupField, EncryptedLookupRelatedField
+    from rest_framework_encrypted_lookup.fields import EncryptedLookupField, EncryptedLookupRelatedField, EncryptedLookupHyperlinkedRelatedField
     
-a new serializer class:
+two new serializer classes:
 
-    from rest_framework_encrypted_lookup.serializers import EncryptedLookupModelSerializer
+    from rest_framework_encrypted_lookup.serializers import EncryptedLookupModelSerializer, EncryptedLookupHyperlinkedModelSerializer
     
 and a generic view class:
 
@@ -127,11 +139,23 @@ Example:
         lookup_field = 'id'
 ```
 
-Of the four classes included in this package, the example above makes use of `EncryptedLookupModelSerializer`, and 
+Of the classes included in this package, the example above makes use of `EncryptedLookupModelSerializer`, and 
 `EncryptedLookupGenericViewSet`.
 
 The fields `EncryptedLookupField`, `EncryptedLookupRelatedField` are used implicitly
 by the EncryptedLookupModelSerializer. These fields may also be used explicitly, if needed.
+
+We could have used `EncryptedLookupHyperlinkedModelSerializer` instead of `EncryptedLookupModelSerializer`:
+```
+    # serializers.py
+    ...
+    class PollSerializer(EncryptedLookupHyperlinkedModelSerializer):
+
+        class Meta:
+            model = Poll
+```
+
+In this case, PollSerializer would serialize related fields as hyperlinks, using the `EncryptedHyperlinkedLookupRelatedField`.
 
 Compatibility
 =============
@@ -150,8 +174,6 @@ Todo
 
 * Model name salts.
 * Coverage.
-* Wheels.
-* EncryptedLookupHyperlinkedModelSerializer.
 
 Getting Involved
 ================
