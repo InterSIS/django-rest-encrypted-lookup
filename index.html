@@ -13,7 +13,7 @@
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
-    <title>Django-rest-encrypted-lookup by SigmaEducation</title>
+    <title>Django-rest-encrypted-lookup by InterSIS</title>
   </head>
 
   <body>
@@ -21,14 +21,16 @@
       <div class="inner">
         <h1>Django-rest-encrypted-lookup</h1>
         <h2></h2>
-        <a href="https://github.com/SigmaEducation/django-rest-encrypted-lookup" class="button"><small>View project on</small> GitHub</a>
+        <a href="https://github.com/InterSIS/django-rest-encrypted-lookup" class="button"><small>View project on</small> GitHub</a>
       </div>
     </header>
 
     <div id="content-wrapper">
       <div class="inner clearfix">
         <section id="main-content">
-          <h1>
+          <p><a href="https://pypi.python.org/pypi/django-rest-encrypted-lookup/"><img src="https://pypip.in/download/django-rest-encrypted-lookup/badge.svg" alt="Downloads"></a> <a href="https://travis-ci.org/InterSIS/django-rest-encrypted-lookup"><img src="https://travis-ci.org/InterSIS/django-rest-encrypted-lookup.svg?branch=master" alt="Build Status"></a></p>
+
+<h1>
 <a id="django-rest-encrypted-lookup" class="anchor" href="#django-rest-encrypted-lookup" aria-hidden="true"><span class="octicon octicon-link"></span></a>django-rest-encrypted-lookup</h1>
 
 <p>django-rest-encrypted-lookup provides replacement ViewSets, Serializers, and Fields that replace your IntegerField pk or id lookups with encrypted string lookups.</p>
@@ -57,6 +59,18 @@
     }
 </code></pre>
 
+<p>If you prefer hyperlinked related fields:</p>
+
+<pre><code>    {
+        "id": "4xoh7gja2mtvz3i47ywy5h6ouu",
+        "questions": [
+                      "https://example.com/api/questions/t6y4zo26vutj4xclh5hpy3sc5m/",
+                      "https://example.com/api/questions/hp7c75ggggiwv6cs5zc4mpzeoe/",
+                      "https://example.com/api/questions/rqq5a2evfokyo7tz74loiu3bcq/",
+        ]
+    }
+</code></pre>
+
 <p>The endpoint:</p>
 
 <pre><code>    /api/polls/5/
@@ -68,7 +82,7 @@
 </code></pre>
 
 <p>Encrypted lookups are <em>not</em> appropriate to use as a security measure against users guessing object URIs. Encrypted
-lookups <em>are</em> appropriate to use as a non-security-critical method of obfuscating object pks/ids.</p>
+lookups <em>are</em> appropriate to use as a method of obfuscating object pks/ids.</p>
 
 <h1>
 <a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h1>
@@ -89,13 +103,10 @@ lookups <em>are</em> appropriate to use as a non-security-critical method of obf
 
 <p>And in settings.py:</p>
 
-<pre><code>  LOOKUP_FIELD = 'id'  # String value name of your drf lookup field, generally 'id' or 'pk'
-
-  # Choose your own 
-  # Protect ID_ENCRYPT_SECRET as closely as your SECRET_KEY
-  # DO NOT set ID_ENCRYPT_SECRET to be equal to your SECRET_KEY
-  # If ID_ENCRYPT_SECRET changes, then your lookup strings will change
-  ID_ENCRYPT_SECRET = b'16Secretchars+++'
+<pre><code>  ENCRYPTED_LOOKUP = {
+      'lookup_field_name': 'id',  # String value name of your drf lookup field, generally 'id' or 'pk'
+      'secret_key': 'uniquesecret',  # Choose a string value unique secret key with which to encrypt your lookup fields
+  },
 </code></pre>
 
 <h1>
@@ -111,14 +122,14 @@ deserializers.</p>
 <h1>
 <a id="use" class="anchor" href="#use" aria-hidden="true"><span class="octicon octicon-link"></span></a>Use</h1>
 
-<p>django-rest-encrypted-lookup provides two field classes:</p>
+<p>django-rest-encrypted-lookup provides three field classes:</p>
 
-<pre><code>from rest_framework_encrypted_lookup.fields import EncryptedLookupField, EncryptedLookupRelatedField
+<pre><code>from rest_framework_encrypted_lookup.fields import EncryptedLookupField, EncryptedLookupRelatedField, EncryptedLookupHyperlinkedRelatedField
 </code></pre>
 
-<p>a new serializer class:</p>
+<p>two new serializer classes:</p>
 
-<pre><code>from rest_framework_encrypted_lookup.serializers import EncryptedLookupModelSerializer
+<pre><code>from rest_framework_encrypted_lookup.serializers import EncryptedLookupModelSerializer, EncryptedLookupHyperlinkedModelSerializer
 </code></pre>
 
 <p>and a generic view class:</p>
@@ -160,26 +171,38 @@ deserializers.</p>
         lookup_field = 'id'
 </code></pre>
 
-<p>Of the four classes included in this package, the example above makes use of <code>EncryptedLookupModelSerializer</code>, and 
+<p>Of the classes included in this package, the example above makes use of <code>EncryptedLookupModelSerializer</code>, and 
 <code>EncryptedLookupGenericViewSet</code>.</p>
 
 <p>The fields <code>EncryptedLookupField</code>, <code>EncryptedLookupRelatedField</code> are used implicitly
 by the EncryptedLookupModelSerializer. These fields may also be used explicitly, if needed.</p>
 
+<p>We could have used <code>EncryptedLookupHyperlinkedModelSerializer</code> instead of <code>EncryptedLookupModelSerializer</code>:</p>
+
+<pre><code>    # serializers.py
+    ...
+    class PollSerializer(EncryptedLookupHyperlinkedModelSerializer):
+
+        class Meta:
+            model = Poll
+</code></pre>
+
+<p>In this case, PollSerializer would serialize related fields as hyperlinks, using the <code>EncryptedHyperlinkedLookupRelatedField</code>.</p>
+
 <h1>
 <a id="compatibility" class="anchor" href="#compatibility" aria-hidden="true"><span class="octicon octicon-link"></span></a>Compatibility</h1>
 
 <ul>
-<li>Django Rest Framework 3</li>
-<li>Django 1.6, 1.7</li>
-<li>Python 2.7, 3.4</li>
+<li>Django Rest Framework 3.0.0, 3.0.1</li>
+<li>Django 1.5, 1.6, 1.7</li>
+<li>Python 2.7, 3.3, 3.4</li>
 </ul>
 
 <h1>
 <a id="additional-requirements" class="anchor" href="#additional-requirements" aria-hidden="true"><span class="octicon octicon-link"></span></a>Additional Requirements</h1>
 
 <ul>
-<li>PyCrypto</li>
+<li>PyCrypto 2.6.1</li>
 </ul>
 
 <h1>
@@ -188,9 +211,6 @@ by the EncryptedLookupModelSerializer. These fields may also be used explicitly,
 <ul>
 <li>Model name salts.</li>
 <li>Coverage.</li>
-<li>Wheels.</li>
-<li>Settings dictionary.</li>
-<li>EncryptedLookupHyperlinkedModelSerializer.</li>
 </ul>
 
 <h1>
@@ -200,16 +220,16 @@ by the EncryptedLookupModelSerializer. These fields may also be used explicitly,
         </section>
 
         <aside id="sidebar">
-          <a href="https://github.com/SigmaEducation/django-rest-encrypted-lookup/zipball/master" class="button">
+          <a href="https://github.com/InterSIS/django-rest-encrypted-lookup/zipball/master" class="button">
             <small>Download</small>
             .zip file
           </a>
-          <a href="https://github.com/SigmaEducation/django-rest-encrypted-lookup/tarball/master" class="button">
+          <a href="https://github.com/InterSIS/django-rest-encrypted-lookup/tarball/master" class="button">
             <small>Download</small>
             .tar.gz file
           </a>
 
-          <p class="repo-owner"><a href="https://github.com/SigmaEducation/django-rest-encrypted-lookup"></a> is maintained by <a href="https://github.com/SigmaEducation">SigmaEducation</a>.</p>
+          <p class="repo-owner"><a href="https://github.com/InterSIS/django-rest-encrypted-lookup"></a> is maintained by <a href="https://github.com/InterSIS">InterSIS</a>.</p>
 
           <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
         </aside>
