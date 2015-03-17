@@ -1,4 +1,5 @@
 [![Downloads](https://pypip.in/download/django-rest-encrypted-lookup/badge.svg)](https://pypi.python.org/pypi/django-rest-encrypted-lookup/) [![Build Status](https://travis-ci.org/InterSIS/django-rest-encrypted-lookup.svg?branch=master)](https://travis-ci.org/InterSIS/django-rest-encrypted-lookup)
+
 django-rest-encrypted-lookup
 =============
 
@@ -163,6 +164,8 @@ Compatibility
 * Django Rest Framework 3.0.0, 3.0.1
 * Django 1.5, 1.6, 1.7
 * Python 2.7, 3.3, 3.4
+
+** Other minor releases within a major release may be compatible, but are not currently tested. **
 
 Additional Requirements
 =======================
