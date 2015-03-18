@@ -161,11 +161,11 @@ In this case, PollSerializer would serialize related fields as hyperlinks, using
 Compatibility
 =============
 
-* Django Rest Framework 3.0.0, 3.0.1
-* Django 1.5, 1.6, 1.7
+* Django Rest Framework 3.0, 3.1
+* Django 1.6, 1.7, 1.8
 * Python 2.7, 3.3, 3.4
 
-** Other minor releases within a major release may be compatible, but are not currently tested. **
+See tox.ini for specific minor versions tested.
 
 Additional Requirements
 =======================
@@ -175,7 +175,7 @@ Additional Requirements
 Todo
 ====
 
-* Model name salts.
+* Serializer-provided encryption keys.
 * Coverage.
 
 Getting Involved
