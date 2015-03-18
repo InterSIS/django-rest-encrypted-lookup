@@ -9,7 +9,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-rest-encrypted-lookup',
-    version='0.9.0',
+    version='0.9.5',
     packages=['rest_framework_encrypted_lookup'],
     include_package_data=True,
     license='GNU General Public License v3 (GPLv3)',
@@ -19,8 +19,8 @@ setup(
     author='InterSIS Foundation',
     author_email='dev@sigmaeducation.com',
     install_requires=[
-        'django>=1.5',
-        'djangorestframework>=3.0.0, <3.0.2',
+        'django>=1.6',
+        'djangorestframework>=3.0.0, <3.1.0',
         'pycrypto==2.6.1',
     ],
     classifiers=[
