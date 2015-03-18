@@ -3,7 +3,9 @@
 django-rest-encrypted-lookup
 =============
 
-django-rest-encrypted-lookup provides replacement ViewSets, Serializers, and Fields that replace your IntegerField pk or id lookups with encrypted string lookups.
+Drop-in ViewSets, Serializers, and Fields that replace your IntegerField pk or id lookups with encrypted string lookups. 
+
+Use a single cipher across your entire project, or provide a unique cipher for each serializer, model, user, and/or client.
 
 The json representation of a poll:
 ```
@@ -27,6 +29,28 @@ becomes:
         ]
     }
 ```
+
+Choose a user-by-user cipher such that:
+```
+    # User A GETs /api/polls/ and receives:
+    
+    {
+        "results": [
+                    "4xoh7gja2mtvz3i47ywy5h6ouu",
+                    "12gc75ggggiwv6cs5zc4mpzeoe",
+        ]
+    }
+    
+    # User B GETs /api/polls/ and receives:
+    
+    {
+        "results": [
+                    "rqq5a2evfokyo7tz74loiu3bcq",
+                    "hp7c75g84g63v6cs5zc423zeoe",
+        ]
+    }
+```                   
+        
 
 If you prefer hyperlinked related fields:
 ```
@@ -158,6 +182,36 @@ We could have used `EncryptedLookupHyperlinkedModelSerializer` instead of `Encry
 
 In this case, PollSerializer would serialize related fields as hyperlinks, using the `EncryptedHyperlinkedLookupRelatedField`.
 
+By default, every encrypted-lookup serializer class will use the same cypher. You can choose a non-default cypher by
+overwriting your serializer's `get_cypher` method. Here is a ```get_cypher``` method that will produce a unique cypher per-model:
+
+```
+    from rest_framework_encrypted_lookup.utils import IDCipher
+    from rest_framework_encrypted_lookup.settings import encrypted_lookup_settings
+
+    class MyEncryptedLookupModelSerializer(EncryptedLookupModelSerializer):
+        
+        def get_cipher(self):
+            return IDCipher(secret=encrypted_lookup_settings['secret_key']+self.Meta.model)
+
+```
+
+Here is a ```get_cypher``` method that will produce a unique cypher per-user:
+
+```
+    from rest_framework_encrypted_lookup.utils import IDCipher
+    from rest_framework_encrypted_lookup.settings import encrypted_lookup_settings
+
+    class MyEncryptedLookupModelSerializer(EncryptedLookupModelSerializer):
+        
+        def get_cipher(self):
+            # Let's suppose that a user must be logged in to reach this endpoint.
+            
+            return IDCipher(secret=encrypted_lookup_settings['secret_key']+self._context["request"].user.username)
+
+```
+
+
 Compatibility
 =============
 
@@ -175,7 +229,7 @@ Additional Requirements
 Todo
 ====
 
-* Serializer-provided encryption keys.
+* Helpful exceptions.
 * Coverage.
 
 Getting Involved

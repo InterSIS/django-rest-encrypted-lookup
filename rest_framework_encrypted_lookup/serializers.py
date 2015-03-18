@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from .fields import EncryptedLookupRelatedField, EncryptedLookupField, EncryptedLookupHyperlinkedRelatedField
 from .settings import encrypted_lookup_settings
+from .utils import id_cipher
 
 
 class EncryptedLookupSerializerMixin():
@@ -15,6 +16,10 @@ class EncryptedLookupSerializerMixin():
             ret[self.lookup_field] = EncryptedLookupField()
 
         return ret
+
+    def get_cipher(self):
+        return id_cipher
+
 
 
 class EncryptedLookupModelSerializer(EncryptedLookupSerializerMixin, serializers.ModelSerializer):

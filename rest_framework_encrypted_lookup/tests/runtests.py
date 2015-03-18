@@ -15,6 +15,8 @@ sys.path.append(os.path.abspath(os.path.join(BASE_DIR, '..')))
 # decorator, because it would miss the database setup.
 CUSTOM_INSTALLED_APPS = (
     'rest_framework',
+    # 'tests',
+    # 'rest_framework_encrypted_lookup',
     # 'django.contrib.admin',
 )
 
