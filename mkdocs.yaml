@@ -6,3 +6,8 @@ repo_url: https://github.com/InterSIS/django-rest-encrypted-lookup
 
 pages:
  - ['index.md', 'Home']
+ - ['fields.md', 'Fields']
+ - ['serializers.md', 'Serializers']
+ - ['views.md', 'Views']
+ - ['utils.md', 'Utils']
+ - ['settings.md', 'Settings']
