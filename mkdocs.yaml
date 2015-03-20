@@ -1,0 +1,8 @@
+site_name: Django REST Encrypted Lookup
+site_description: Django REST Encrypted Lookup - Replace Rest Framework's IntegerField pk or id lookups with encrypted strings.
+
+repo_url: https://github.com/InterSIS/django-rest-encrypted-lookup
+
+
+pages:
+ - ['index.md', 'Home']
