@@ -41,7 +41,7 @@ class EncryptedLookupRelatedField(EncryptedLookupFieldMixin, serializers.Primary
         return self.get_cipher().encode(value.pk)
 
 EncryptedLookupRelatedField.default_error_messages['incorrect_type_encrypted_lookup'] = \
-    _('Incorrect type. Expected string value, received {data_type}.')
+    _('Incorrect type. Expected json encoded string value, received {data_type}.')
 
 
 class EncryptedLookupHyperlinkedRelatedField(EncryptedLookupFieldMixin, serializers.HyperlinkedRelatedField):
