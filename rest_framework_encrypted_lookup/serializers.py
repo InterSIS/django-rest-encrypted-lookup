@@ -9,7 +9,6 @@ class EncryptedLookupSerializerMixin():
     lookup_field = encrypted_lookup_settings["lookup_field_name"]
 
     def get_fields(self):
-
         ret = serializers.ModelSerializer.get_fields(self)
 
         if self.lookup_field in ret:
@@ -19,7 +18,6 @@ class EncryptedLookupSerializerMixin():
 
     def get_cipher(self):
         return id_cipher
-
 
 
 class EncryptedLookupModelSerializer(EncryptedLookupSerializerMixin, serializers.ModelSerializer):
