@@ -1,5 +1,6 @@
 from rest_framework import viewsets
 
+
 class EncryptedLookupGenericViewSet(viewsets.GenericViewSet):
     """
     GenericViewSet subclass capable of decrypting our encrypted lookup field references.
@@ -13,6 +14,10 @@ class EncryptedLookupGenericViewSet(viewsets.GenericViewSet):
             lookup = kwargs.get(self.lookup_field, None)
 
             if lookup is not None:
+                # Pre-set some of the variables which may be needed to resolve serializer context:
+                self.request = request
+                self.format_kwarg = self.get_format_suffix(**kwargs)
+
                 kwargs[self.lookup_field] = self.get_serializer().get_cipher().decode(lookup)
 
             return super(EncryptedLookupGenericViewSet, self).dispatch(request, *args, **kwargs)
