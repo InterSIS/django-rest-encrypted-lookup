@@ -1,10 +1,10 @@
 import json
 import sys
-from argparse import Namespace
+
 
 from django.test import TestCase
 from django.db import models
-from django.core.urlresolvers import reverse
+from django.http import Http404
 
 from rest_framework.test import APIRequestFactory
 from rest_framework import status, viewsets
@@ -205,4 +205,20 @@ class ViewTests(TestCase):
         DummyView.format_kwarg = "json"
         response = view(request, pk=IDCipher().encode(1)).render()
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
+class ErrorTests(TestCase):
+
+    def test_base32_decode_lookup_raises_404(self):
+
+        DummyView.get_object = lambda request, *args, **kwargs: dummy_objects[kwargs['pk']]
+        view = DummyView.as_view({'get': 'retrieve', })
+        request = factory.get('/' + "1", format='json')
+        DummyView.request = request
+        DummyView.format_kwarg = "json"
+
+        with self.assertRaises(Http404):
+            view(request, pk="1").render()
+
+
 
