@@ -24,7 +24,9 @@ class EncryptedLookupGenericViewSet(viewsets.GenericViewSet):
 
                 try:
                     kwargs[self.lookup_field] = self.get_serializer().get_cipher().decode(lookup)
-                except binascii.Error:
+                except binascii.Error:  # Python 3
+                    raise Http404
+                except TypeError:       # Python 2
                     raise Http404
 
             return super(EncryptedLookupGenericViewSet, self).dispatch(request, *args, **kwargs)

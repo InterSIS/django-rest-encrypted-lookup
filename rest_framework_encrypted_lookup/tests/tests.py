@@ -210,6 +210,9 @@ class ViewTests(TestCase):
 class ErrorTests(TestCase):
 
     def test_base32_decode_lookup_raises_404(self):
+        """
+        If a lookup cannot be base32 decoded, a 404 should be raised.
+        """
 
         DummyView.get_object = lambda request, *args, **kwargs: dummy_objects[kwargs['pk']]
         view = DummyView.as_view({'get': 'retrieve', })
