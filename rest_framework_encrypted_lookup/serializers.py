@@ -22,10 +22,12 @@ class EncryptedLookupSerializerMixin():
 
 class EncryptedLookupModelSerializer(EncryptedLookupSerializerMixin, serializers.ModelSerializer):
     """
-    Encrypted lookup model serializer to be used in place of rest_framework's ModelSerializer
+    Encrypted lookup model serializer to be used in place of rest_framework's
+    ModelSerializer
 
-    EncryptedLookupModelSerializer represents related models with a EncryptedLookupRelatedField and lookup fields
-    with a EncryptedLookupField, provided that these fields would be presented by ModelSerializer.
+    EncryptedLookupModelSerializer represents related models with a
+    EncryptedLookupRelatedField and lookup fields with a EncryptedLookupField,
+    provided that these fields would be presented by ModelSerializer.
     """
 
     serializer_related_field = EncryptedLookupRelatedField  # Django Rest Framework 3.0.0
