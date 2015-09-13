@@ -7,12 +7,15 @@ from django.utils.translation import ugettext_lazy as _
 from rest_framework import serializers
 
 
+# pylint: disable=too-few-public-methods
 class EncryptedLookupFieldMixin(object):
-    
+
     def get_cipher(self):
         return self.parent.get_cipher()
 
 
+# TODO: Refactor abstract-method error from class
+# pylint: disable=abstract-method
 class EncryptedLookupField(EncryptedLookupFieldMixin, serializers.ReadOnlyField):
     """
     Read-only rest_framework field used to present an encrypted-lookup field.
@@ -21,7 +24,8 @@ class EncryptedLookupField(EncryptedLookupFieldMixin, serializers.ReadOnlyField)
         return self.get_cipher().encode(value)
 
 
-class EncryptedLookupRelatedField(EncryptedLookupFieldMixin, serializers.PrimaryKeyRelatedField):
+class EncryptedLookupRelatedField(EncryptedLookupFieldMixin,
+                                  serializers.PrimaryKeyRelatedField):
     """
     Encrypted lookup field to be used in place of PrimaryKeyRelatedField
     """
@@ -44,15 +48,23 @@ EncryptedLookupRelatedField.default_error_messages['incorrect_type_encrypted_loo
     _('Incorrect type. Expected json encoded string value, received {data_type}.')
 
 
-class EncryptedLookupHyperlinkedRelatedField(EncryptedLookupFieldMixin, serializers.HyperlinkedRelatedField):
+class EncryptedLookupHyperlinkedRelatedField(EncryptedLookupFieldMixin,
+                                             serializers.HyperlinkedRelatedField):
 
     def get_object(self, view_name, view_args, view_kwargs):
-        view_kwargs[self.lookup_url_kwarg] = self.get_cipher().decode(view_kwargs[self.lookup_url_kwarg])
+        encrypted_url_kwarg = view_kwargs[self.lookup_url_kwarg]
+        decrypted_url_kwarg = self.get_cipher().decode(encrypted_url_kwarg)
 
-        return super(EncryptedLookupHyperlinkedRelatedField, self).get_object(view_name, view_args, view_kwargs)
+        view_kwargs[self.lookup_url_kwarg] = decrypted_url_kwarg
 
-    def get_url(self, obj, view_name, request, format):
+        parent = super(EncryptedLookupHyperlinkedRelatedField, self)
+
+        return parent.get_object(view_name, view_args, view_kwargs)
+
+    def get_url(self, obj, view_name, request, url_format):
         new_obj = Namespace()
         new_obj.pk = self.get_cipher().encode(obj.pk)
 
-        return super(EncryptedLookupHyperlinkedRelatedField, self).get_url(new_obj, view_name, request, format)
+        parent = super(EncryptedLookupHyperlinkedRelatedField, self)
+
+        return parent.get_url(new_obj, view_name, request, url_format)

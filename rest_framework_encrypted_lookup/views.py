@@ -1,3 +1,6 @@
+"""
+Django-Rest-Framework replacement Views for rest_framework_encrypted_lookup
+"""
 import binascii
 
 from django.http import Http404
@@ -14,6 +17,12 @@ class EncryptedLookupGenericViewSet(viewsets.GenericViewSet):
     arguments, replaces them with decrypted values, and calls super's dispatch
     with the results.
     """
+
+    def __init__(self):
+        self.request = None
+        self.format_kwarg = None
+
+        super(EncryptedLookupGenericViewSet, self).__init__()
 
     def dispatch(self, request, *args, **kwargs):
         lookup = kwargs.get(self.lookup_field, None)

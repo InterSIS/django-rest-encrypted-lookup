@@ -1,6 +1,10 @@
+"""
+Django-Rest-Framework replacement Serializers for rest_framework_encrypted_lookup
+"""
 from rest_framework import serializers
 
-from .fields import EncryptedLookupRelatedField, EncryptedLookupField, EncryptedLookupHyperlinkedRelatedField
+from .fields import EncryptedLookupRelatedField, EncryptedLookupField, \
+    EncryptedLookupHyperlinkedRelatedField
 from .settings import encrypted_lookup_settings
 from .utils import id_cipher
 
@@ -16,11 +20,13 @@ class EncryptedLookupSerializerMixin(object):
 
         return ret
 
-    def get_cipher(self):
+    @staticmethod
+    def get_cipher():
         return id_cipher
 
 
-class EncryptedLookupModelSerializer(EncryptedLookupSerializerMixin, serializers.ModelSerializer):
+class EncryptedLookupModelSerializer(EncryptedLookupSerializerMixin,
+                                     serializers.ModelSerializer):
     """
     Encrypted lookup model serializer to be used in place of rest_framework's
     ModelSerializer
@@ -34,7 +40,8 @@ class EncryptedLookupModelSerializer(EncryptedLookupSerializerMixin, serializers
     _related_class = EncryptedLookupRelatedField  # Django Rest Framework 3.0.1
 
 
-class EncryptedLookupHyperlinkedModelSerializer(EncryptedLookupSerializerMixin, serializers.HyperlinkedModelSerializer):
+class EncryptedLookupHyperlinkedModelSerializer(EncryptedLookupSerializerMixin,
+                                                serializers.HyperlinkedModelSerializer):
 
     serializer_related_field = EncryptedLookupHyperlinkedRelatedField  # Django Rest Framework 3.0.0
     _related_class = EncryptedLookupHyperlinkedRelatedField  # Django Rest Framework 3.0.1
