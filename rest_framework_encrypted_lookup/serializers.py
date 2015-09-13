@@ -5,7 +5,7 @@ from .settings import encrypted_lookup_settings
 from .utils import id_cipher
 
 
-class EncryptedLookupSerializerMixin():
+class EncryptedLookupSerializerMixin(object):
     lookup_field = encrypted_lookup_settings["lookup_field_name"]
 
     def get_fields(self):
