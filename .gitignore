@@ -5,4 +5,3 @@
 .tox/
 dist/
 *.egg-info/
-my.tox.ini
