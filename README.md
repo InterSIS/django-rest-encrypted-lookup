@@ -163,6 +163,22 @@ Example:
         serializer_class = PollSerializer
         
         lookup_field = 'id'
+    
+    
+    # urls.py (the one in project package folder)
+    ...
+    from rest_framework import router
+    from polls import views
+    
+        router = routers.SimpleRouter()
+        router.register(r'polls', views.PollViewSet)
+
+        urlpatterns = [
+            url(r'^admin/', include(admin.site.urls)),
+            url(r'^', include(router.urls)),
+        ]
+            
+            
 ```
 
 Of the classes included in this package, the example above makes use of `EncryptedLookupModelSerializer`, and 
