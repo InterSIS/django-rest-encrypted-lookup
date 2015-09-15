@@ -1,5 +1,5 @@
-[![PyPI](https://img.shields.io/pypi/dm/django-rest-encrypted-lookup.svg)]()
 [![Build Status](https://travis-ci.org/InterSIS/django-rest-encrypted-lookup.svg?branch=master)](https://travis-ci.org/InterSIS/django-rest-encrypted-lookup)
+[![PyPI version](https://badge.fury.io/py/django-rest-encrypted-lookup.svg)](http://badge.fury.io/py/django-rest-encrypted-lookup)
 
 django-rest-encrypted-lookup
 =============
@@ -165,7 +165,7 @@ Example:
         lookup_field = 'id'
     
     
-    # urls.py (the one in project package folder)
+    # urls.py
     ...
     from rest_framework import router
     from polls import views
