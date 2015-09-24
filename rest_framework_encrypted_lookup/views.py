@@ -18,19 +18,17 @@ class EncryptedLookupGenericViewSet(viewsets.GenericViewSet):
     with the results.
     """
 
-    def __init__(self):
-        self.request = None
-        self.format_kwarg = None
-
-        super(EncryptedLookupGenericViewSet, self).__init__()
-
     def dispatch(self, request, *args, **kwargs):
         lookup = kwargs.get(self.lookup_field, None)
 
         if lookup is not None:
             # Pre-set some of the variables which may be needed to resolve
             # serializer context:
+
+            # TODO: Refactor these declarations into init
+            # pylint: disable=attribute-defined-outside-init
             self.request = request
+            # pylint: disable=attribute-defined-outside-init
             self.format_kwarg = self.get_format_suffix(**kwargs)
 
             try:

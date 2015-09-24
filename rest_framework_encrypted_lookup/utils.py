@@ -65,4 +65,4 @@ class IDCipher(object):
         return result
 
 # TODO: Refactor name to ID_CIPHER on next major version upgrade
-id_cipher = IDCipher()  # pylint: disable=C0103
+id_cipher = IDCipher()  # pylint: disable=invalid-name
