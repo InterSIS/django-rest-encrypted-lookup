@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/InterSIS/django-rest-encrypted-lookup.svg?branch=master)](https://travis-ci.org/InterSIS/django-rest-encrypted-lookup)
+[![Code Climate](https://codeclimate.com/github/InterSIS/django-rest-encrypted-lookup/badges/gpa.svg)](https://codeclimate.com/github/InterSIS/django-rest-encrypted-lookup)
 [![Coverage Status](https://coveralls.io/repos/InterSIS/django-rest-encrypted-lookup/badge.svg?branch=master&service=github)](https://coveralls.io/github/InterSIS/django-rest-encrypted-lookup?branch=master)
 [![PyPI version](https://badge.fury.io/py/django-rest-encrypted-lookup.svg)](http://badge.fury.io/py/django-rest-encrypted-lookup)
 
