@@ -1,0 +1,7 @@
+languages:
+   Python: true
+exclude_paths:
+- "*.egg-info/*"
+- "dist/*"
+- "docs/*"
+- "rest_framework_encrypted_lookup/tests/*"
