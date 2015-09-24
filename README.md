@@ -1,5 +1,5 @@
-[![PyPI](https://img.shields.io/pypi/dm/django-rest-encrypted-lookup.svg)]()
 [![Build Status](https://travis-ci.org/InterSIS/django-rest-encrypted-lookup.svg?branch=master)](https://travis-ci.org/InterSIS/django-rest-encrypted-lookup)
+[![PyPI version](https://badge.fury.io/py/django-rest-encrypted-lookup.svg)](http://badge.fury.io/py/django-rest-encrypted-lookup)
 
 django-rest-encrypted-lookup
 =============
@@ -163,6 +163,22 @@ Example:
         serializer_class = PollSerializer
         
         lookup_field = 'id'
+    
+    
+    # urls.py
+    ...
+    from rest_framework import router
+    from polls import views
+    
+        router = routers.SimpleRouter()
+        router.register(r'polls', views.PollViewSet)
+
+        urlpatterns = [
+            url(r'^admin/', include(admin.site.urls)),
+            url(r'^', include(router.urls)),
+        ]
+            
+            
 ```
 
 Of the classes included in this package, the example above makes use of `EncryptedLookupModelSerializer`, and 
@@ -236,4 +252,12 @@ Todo
 Getting Involved
 ================
 
-Feel free to open pull requests or issues. GitHub is the canonical location of this project.
+Feel free to open pull requests or issues. [GitHub](https://github.com/InterSIS/django-rest-encrypted-lookup) is the canonical location of this project.
+
+Here's the general sequence of events for contribution:
+
+1. Open an issue in the [issue tracker](https://github.com/InterSIS/django-rest-encrypted-lookup/issues/).
+2. In any order:
+  * Submit a pull request with a **failing** test that demonstrates the issue/feature.
+  * Get acknowledgement/concurrence.
+3. Submit pull request that passes your test in (2). Include documentation, if appropriate.
