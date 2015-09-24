@@ -16,6 +16,7 @@ env:
     - TOX_ENV=py34-django1.6-drf3.2.3
     - TOX_ENV=py34-django1.8-drf3.0.5
     - TOX_ENV=lint
+    - TOX_ENV=coveralls
 
 matrix:
   fast_finish: true
