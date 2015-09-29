@@ -1,39 +1,46 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
-    <meta charset='utf-8'>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+    <title>Django-rest-encrypted-lookup by InterSIS</title>
 
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-
-    <title>Django-rest-encrypted-lookup by InterSIS</title>
   </head>
-
   <body>
-    <header>
-      <div class="inner">
-        <h1>Django-rest-encrypted-lookup</h1>
-        <h2></h2>
-        <a href="https://github.com/InterSIS/django-rest-encrypted-lookup" class="button"><small>View project on</small> GitHub</a>
-      </div>
-    </header>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">Django-rest-encrypted-lookup</h1>
+        <p class="header"></p>
 
-    <div id="content-wrapper">
-      <div class="inner clearfix">
-        <section id="main-content">
-          <p><a href="https://pypi.python.org/pypi/django-rest-encrypted-lookup/"><img src="https://pypip.in/download/django-rest-encrypted-lookup/badge.svg" alt="Downloads"></a> <a href="https://travis-ci.org/InterSIS/django-rest-encrypted-lookup"><img src="https://travis-ci.org/InterSIS/django-rest-encrypted-lookup.svg?branch=master" alt="Build Status"></a></p>
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/InterSIS/django-rest-encrypted-lookup/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/InterSIS/django-rest-encrypted-lookup/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/InterSIS/django-rest-encrypted-lookup">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/InterSIS">InterSIS</a></p>
+
+
+      </header>
+      <section>
+        <p><a href="https://travis-ci.org/InterSIS/django-rest-encrypted-lookup"><img src="https://travis-ci.org/InterSIS/django-rest-encrypted-lookup.svg?branch=master" alt="Build Status"></a>
+<a href="https://codeclimate.com/github/InterSIS/django-rest-encrypted-lookup"><img src="https://codeclimate.com/github/InterSIS/django-rest-encrypted-lookup/badges/gpa.svg" alt="Code Climate"></a>
+<a href="https://coveralls.io/github/InterSIS/django-rest-encrypted-lookup?branch=master"><img src="https://coveralls.io/repos/InterSIS/django-rest-encrypted-lookup/badge.svg?branch=master&amp;service=github" alt="Coverage Status"></a>
+<a href="http://badge.fury.io/py/django-rest-encrypted-lookup"><img src="https://badge.fury.io/py/django-rest-encrypted-lookup.svg" alt="PyPI version"></a></p>
 
 <h1>
 <a id="django-rest-encrypted-lookup" class="anchor" href="#django-rest-encrypted-lookup" aria-hidden="true"><span class="octicon octicon-link"></span></a>django-rest-encrypted-lookup</h1>
 
-<p>django-rest-encrypted-lookup provides replacement ViewSets, Serializers, and Fields that replace your IntegerField pk or id lookups with encrypted string lookups.</p>
+<p>Drop-in ViewSets, Serializers, and Fields that replace your IntegerField pk or id lookups with encrypted string lookups. </p>
+
+<p>Use a single cipher across your entire project, or provide a unique cipher for each serializer, model, user, and/or client.</p>
 
 <p>The json representation of a poll:</p>
 
@@ -55,6 +62,27 @@
                       "t6y4zo26vutj4xclh5hpy3sc5m",
                       "hp7c75ggggiwv6cs5zc4mpzeoe",
                       "rqq5a2evfokyo7tz74loiu3bcq",
+        ]
+    }
+</code></pre>
+
+<p>Choose a user-by-user cipher such that:</p>
+
+<pre><code>    # User A GETs /api/polls/ and receives:
+
+    {
+        "results": [
+                    "4xoh7gja2mtvz3i47ywy5h6ouu",
+                    "12gc75ggggiwv6cs5zc4mpzeoe",
+        ]
+    }
+
+    # User B GETs /api/polls/ and receives:
+
+    {
+        "results": [
+                    "rqq5a2evfokyo7tz74loiu3bcq",
+                    "hp7c75g84g63v6cs5zc423zeoe",
         ]
     }
 </code></pre>
@@ -169,6 +197,22 @@ deserializers.</p>
         serializer_class = PollSerializer
 
         lookup_field = 'id'
+
+
+    # urls.py
+    ...
+    from rest_framework import router
+    from polls import views
+
+        router = routers.SimpleRouter()
+        router.register(r'polls', views.PollViewSet)
+
+        urlpatterns = [
+            url(r'^admin/', include(admin.site.urls)),
+            url(r'^', include(router.urls)),
+        ]
+
+
 </code></pre>
 
 <p>Of the classes included in this package, the example above makes use of <code>EncryptedLookupModelSerializer</code>, and 
@@ -189,14 +233,43 @@ by the EncryptedLookupModelSerializer. These fields may also be used explicitly,
 
 <p>In this case, PollSerializer would serialize related fields as hyperlinks, using the <code>EncryptedHyperlinkedLookupRelatedField</code>.</p>
 
+<p>By default, every encrypted-lookup serializer class will use the same cypher. You can choose a non-default cypher by
+overwriting your serializer's <code>get_cypher</code> method. Here is a <code>get_cypher</code> method that will produce a unique cypher per-model:</p>
+
+<pre><code>    from rest_framework_encrypted_lookup.utils import IDCipher
+    from rest_framework_encrypted_lookup.settings import encrypted_lookup_settings
+
+    class MyEncryptedLookupModelSerializer(EncryptedLookupModelSerializer):
+
+        def get_cipher(self):
+            return IDCipher(secret=encrypted_lookup_settings['secret_key']+self.Meta.model)
+
+</code></pre>
+
+<p>Here is a <code>get_cypher</code> method that will produce a unique cypher per-user:</p>
+
+<pre><code>    from rest_framework_encrypted_lookup.utils import IDCipher
+    from rest_framework_encrypted_lookup.settings import encrypted_lookup_settings
+
+    class MyEncryptedLookupModelSerializer(EncryptedLookupModelSerializer):
+
+        def get_cipher(self):
+            # Let's suppose that a user must be logged in to reach this endpoint.
+
+            return IDCipher(secret=encrypted_lookup_settings['secret_key']+self._context["request"].user.username)
+
+</code></pre>
+
 <h1>
 <a id="compatibility" class="anchor" href="#compatibility" aria-hidden="true"><span class="octicon octicon-link"></span></a>Compatibility</h1>
 
 <ul>
-<li>Django Rest Framework 3.0.0, 3.0.1</li>
-<li>Django 1.5, 1.6, 1.7</li>
+<li>Django Rest Framework 3.0, 3.1</li>
+<li>Django 1.6, 1.7, 1.8</li>
 <li>Python 2.7, 3.3, 3.4</li>
 </ul>
+
+<p>See tox.ini for specific minor versions tested.</p>
 
 <h1>
 <a id="additional-requirements" class="anchor" href="#additional-requirements" aria-hidden="true"><span class="octicon octicon-link"></span></a>Additional Requirements</h1>
@@ -209,33 +282,34 @@ by the EncryptedLookupModelSerializer. These fields may also be used explicitly,
 <a id="todo" class="anchor" href="#todo" aria-hidden="true"><span class="octicon octicon-link"></span></a>Todo</h1>
 
 <ul>
-<li>Model name salts.</li>
+<li>Helpful exceptions.</li>
 <li>Coverage.</li>
 </ul>
 
 <h1>
 <a id="getting-involved" class="anchor" href="#getting-involved" aria-hidden="true"><span class="octicon octicon-link"></span></a>Getting Involved</h1>
 
-<p>Feel free to open pull requests or issues. GitHub is the canonical location of this project.</p>
-        </section>
+<p>Feel free to open pull requests or issues. <a href="https://github.com/InterSIS/django-rest-encrypted-lookup">GitHub</a> is the canonical location of this project.</p>
 
-        <aside id="sidebar">
-          <a href="https://github.com/InterSIS/django-rest-encrypted-lookup/zipball/master" class="button">
-            <small>Download</small>
-            .zip file
-          </a>
-          <a href="https://github.com/InterSIS/django-rest-encrypted-lookup/tarball/master" class="button">
-            <small>Download</small>
-            .tar.gz file
-          </a>
+<p>Here's the general sequence of events for contribution:</p>
 
-          <p class="repo-owner"><a href="https://github.com/InterSIS/django-rest-encrypted-lookup"></a> is maintained by <a href="https://github.com/InterSIS">InterSIS</a>.</p>
+<ol>
+<li>Open an issue in the <a href="https://github.com/InterSIS/django-rest-encrypted-lookup/issues/">issue tracker</a>.</li>
+<li>In any order:
 
-          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
-        </aside>
-      </div>
+<ul>
+<li>Submit a pull request with a <strong>failing</strong> test that demonstrates the issue/feature.</li>
+<li>Get acknowledgement/concurrence.</li>
+</ul>
+</li>
+<li>Submit pull request that passes your test in (2). Include documentation, if appropriate.</li>
+</ol>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
     </div>
-
-  
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
   </body>
 </html>
