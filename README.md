@@ -104,7 +104,7 @@ And in settings.py:
   ENCRYPTED_LOOKUP = {
       'lookup_field_name': 'id',  # String value name of your drf lookup field, generally 'id' or 'pk'
       'secret_key': 'uniquesecret',  # Choose a string value unique secret key with which to encrypt your lookup fields
-  },
+  }
 ```
 
 How it Works
