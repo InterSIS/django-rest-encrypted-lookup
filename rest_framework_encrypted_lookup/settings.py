@@ -1,8 +1,10 @@
 """
 Settings for rest_framework_encrypted_lookup
 """
-EXTRA_REQUIRED_SETTINGS = ('secret_key',)
 
+from django.conf import settings
+
+EXTRA_REQUIRED_SETTINGS = ('secret_key',)
 
 # TODO: Refactor name to DEFAULT_ENCRYPTED_LOOKUP_SETTINGS on next major version upgrade
 default_encrypted_lookup_settings = {  # pylint: disable=invalid-name
@@ -10,7 +12,6 @@ default_encrypted_lookup_settings = {  # pylint: disable=invalid-name
 }
 
 try:
-    from django.conf import settings
     encrypted_lookup_settings = getattr(settings, 'ENCRYPTED_LOOKUP')  # pylint: disable=invalid-name
 except AttributeError:
     raise AttributeError(
