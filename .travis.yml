@@ -13,7 +13,6 @@ env:
     - TOX_ENV=py34-django1.8-drf3.1.0
     - TOX_ENV=py34-django1.8-drf3.2.3
     - TOX_ENV=py33-django1.8-drf3.2.3
-    - TOX_ENV=py34-django1.6-drf3.2.3
     - TOX_ENV=py34-django1.8-drf3.0.5
     - TOX_ENV=lint
     - TOX_ENV=coveralls
@@ -25,4 +24,4 @@ install:
   - pip install tox
 
 script:
-    - tox -e $TOX_ENV
+  - tox -e $TOX_ENV

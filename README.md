@@ -235,7 +235,7 @@ Compatibility
 =============
 
 * Django Rest Framework 3.0, 3.1
-* Django 1.6, 1.7, 1.8
+* Django 1.7, 1.8
 * Python 2.7, 3.3, 3.4
 
 See tox.ini for specific minor versions tested.
